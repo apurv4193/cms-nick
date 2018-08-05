@@ -1,0 +1,57 @@
+<section class="card">
+  <div class="card-header">
+    <span class="cat__core__title">
+      <strong>Contact Us</strong>
+    </span>
+  </div>
+
+
+  <div class="card-block">
+    <div class="cat_apps_messaging" *ngIf="!isAppAssign">
+        <label class="form-label mt-1">In order to Contact Us, you must be assigned an app first</label>
+    </div>
+    <div class="cat__apps__messaging" *ngIf="isAppAssign" >
+      <label class="form-label mt-1">Please submit any questions or inquiries here to The APP Company.</label>
+      <div class="custom-scroll cat__core__scrollable" id="scrollId" style="max-height: 300px;" #dicussion_scroll>
+        <div class="cat__apps__chat-block"> <!-- ;let isEnd=end -->
+          <div class="cat__apps__chat-block__item clearfix" [ngClass]="{'cat__apps__chat-block__item--right': item.sender_id === currentLoginUser.id }" *ngFor="let item of dicussionList;last as isLast;">
+            <div class="cat__apps__chat-block__avatar">
+              <a class="cat__core__avatar cat__core__avatar--50" href="javascript:void(0);">
+                <img src="assets/modules/dummy-assets/common/img/avatars/user_default.png" alt="{{item.s_first_name}}  {{item.s_last_name}}"
+                />
+              </a>
+            </div>
+            <div class="cat__apps__chat-block__content" >
+              <strong>{{item.s_first_name}}&nbsp;{{item.s_last_name}}</strong>
+              <p>{{item.dicussion}}</p>
+            </div>
+            <div class="scrollLoadPage" *ngIf="isLast">{{scrollTop()}}</div>
+          </div>
+
+          <!-- <div class="cat__apps__chat-block__item clearfix">
+                        <div class="cat__apps__chat-block__avatar">
+                            <a class="cat__core__avatar cat__core__avatar--50" href="javascript:void(0);">
+                                <img src="assets/modules/dummy-assets/common/img/avatars/user_default.png" alt="Alternative text to the image" />
+                            </a>
+                        </div>
+                        <div class="cat__apps__chat-block__content">
+                            <strong>You</strong>
+                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply
+                                dummy text of the printing and typesetting industry</p>
+                        </div>
+                    </div> -->
+        </div>
+      </div>
+      <div class="form-group mt-4 mb-0">
+        <form #dicussionForm="ngForm" (ngSubmit)="onSubmit(dicussionForm)" [formGroup]="dicussForm" method="POST">
+          <textarea [formControl]="dicussForm.controls['dicussion_text']" class="form-control adjustable-textarea" placeholder="Type and Send"></textarea>
+          <div class="mt-3">
+            <button [disabled]="!dicussForm.valid" type="submit" class="btn btn-primary mt-2 ml-2">
+              Send
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

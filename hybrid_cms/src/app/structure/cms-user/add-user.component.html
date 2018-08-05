@@ -1,0 +1,124 @@
+<!-- START: forms/basic-forms-elements -->
+<section class="card">
+    <div class="card-header">
+        <span class="cat__core__title">
+            <strong>User Management</strong>
+        </span>
+    </div>
+    <div class="card-header">
+        <span class="cat__core__title">
+            <strong>Add User</strong>
+        </span>
+    </div>
+    <div class="card-block">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="mb-5">
+                    <!-- Horizontal Form -->
+                    <form #addUserForm="ngForm" (ngSubmit)="onSubmit(addUserForm)" [formGroup]="form">
+
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label" for="email">First Name</label>
+                            <div class="col-md-9">
+                                <div class="form-input-icon form-input-icon-right">
+                                    <input class="form-control" placeholder="Enter First Name" name="first_name" type="text" [formControl]="form.controls['first_name']">
+
+                                    <small *ngIf="form.controls['first_name'].hasError('required') && form.controls['first_name'].touched" class="form-message text-danger">Please provide valid first name</small>
+                                    <small *ngIf="form.controls['first_name'].hasError('pattern') && form.controls['first_name'].touched" class="form-message text-danger">Please provide valid first name</small>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label" for="email">Last Name</label>
+                            <div class="col-md-9">
+                                <div class="form-input-icon form-input-icon-right">
+                                    <input class="form-control" placeholder="Enter Last Name" name="last_name" type="text" [formControl]="form.controls['last_name']">
+                                    <small *ngIf="form.controls['last_name'].hasError('pattern') && form.controls['last_name'].touched" class="form-message text-danger">Please provide valid last name</small>
+                                    <small *ngIf="form.controls['last_name'].hasError('required') && form.controls['last_name'].touched" class="form-message text-danger">You must include a last name.</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label" for="email">Email</label>
+                            <div class="col-md-9">
+                                <div class="form-input-icon form-input-icon-right">
+                                    <i class="icmn-mail2"></i>
+                                    <input class="form-control" placeholder="Enter Email" name="email" type="email" [formControl]="form.controls['email']">
+
+                                    <small *ngIf="form.controls['email'].hasError('required') && form.controls['email'].touched" class="form-message text-danger">Please provide an valid email address</small>
+                                    <small *ngIf="form.controls['email'].errors?.email && form.controls['email'].touched" class="form-message text-danger">Please provide an valid email address</small>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label" for="password">Password</label>
+                            <div class="col-md-9">
+                                <app-show-hide-container [input_group_show]=true>
+                                    <input #showhideinput class="form-control password" name="password" type="password" placeholder="Enter Password" [formControl]="form.controls['password']">
+                                </app-show-hide-container>
+                                <small *ngIf="(form.controls['password'].hasError('required') && form.controls['password'].touched) || (form.controls['password'].hasError('minlength') && form.controls['first_name'].touched)"
+                                    class="form-message text-danger">Please enter a password with at least 6 characters</small>
+                                <small class="form-message text-danger" *ngIf="form.controls['password'].touched && form.controls['password'].hasError('matchCorrectPass')">Your password contain atleast one Uppercase Letter,
+                                    <br/> and one number</small>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label" for="password">Confirm Password</label>
+                            <div class="col-md-9">
+                                <app-show-hide-container [input_group_show]=true>
+                                    <!-- <input #showhideinput class="form-control password" name="password" type="password" placeholder="Enter Password" [formControl]="form.controls['password']"> -->
+
+                                    <input type="password" #showhideinput class="form-control" id="rpwd" placeholder="********************" [formControl]="form.controls['cnf_password']"
+                                    />
+                                </app-show-hide-container>
+
+                                <small *ngIf="form.controls['cnf_password'].hasError('required') && form.controls['cnf_password'].touched" class="form-message text-danger">Please enter a confirm password.</small>
+                                <small *ngIf="form.controls['cnf_password'].errors?.equalTo" class="form-message text-danger">Passwords do not match.</small>
+
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label" for="status">Select App</label>
+                            <div class="col-md-9">
+                                <select class="form-control" [formControl]="form.controls['app_basic_id']"
+                                    >
+                                    <option value=""> Select App</option>
+                                    <option *ngFor="let data of appMyData" value="{{data.id}}">{{data.app_name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label" for="status">Status</label>
+                            <div class="col-md-9">
+                                <select class="form-control" name="status" [formControl]="form.controls['status']">
+                                    <option *ngFor="let status of statusArray" value="{{status.key}}">{{status.name}}</option>
+                                </select>
+                                <small *ngIf="form.controls['status'].hasError('required') && form.controls['status'].touched" class="form-message text-danger">You must select at least one option .</small>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <button type="submit" #saveUserData class="btn btn-primary" [disabled]="!form.valid">Submit</button>
+                                    <button routerLink="/users" type="button" class="btn btn-primary pull-right">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- END: forms/basic-forms-elements -->

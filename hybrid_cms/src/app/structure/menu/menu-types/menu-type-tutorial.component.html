@@ -1,0 +1,176 @@
+<section class="card">
+
+	<div class="card-block">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="mb-5 sub-menu-css-field-part">
+					<form #menuTypeTutorial="ngForm">
+
+						<input type="hidden" name="menuTypeMenuSlugId" value="{{getMenuTypeMenuSlugId}}">
+
+						<div class="form-group row">
+							<label class="col-md-3 col-form-label" for="show_tutorial">Show Tutorial on First Use</label>
+							<div class="col-md-8 custom_checkbox_bl">
+								<input id="show_tutorial" name="show_tutorial" class="form-control form-custom-checkbox form-check-input" type="checkbox"
+								    [(ngModel)]="typeMenuform.show_tutorial" (change)="sendMenuTypeTutorialFormData($event,null,null,menuTypeTutorial);"
+								/>
+							</div>
+						</div>
+
+						<div class="dynamicAddHtml addMoreHtmlBlock">
+							<div class="row" [hidden]="isImageLoaded">
+								<div class="cat__app-loader" style="position: relative; z-index: 80; margin-top: 10px;
+											margin-bottom: 10px;">
+									<div></div>
+								</div>
+							</div>
+							<div id="dropify_{{html_i+1}}" class="preDefineHtml" *ngFor="let htmlData of formHtmlAarry; let html_i = index ">
+								<div [hidden]="!isImageLoaded">
+									<div class="form-group row">
+										<label class="col-md-3 col-form-label" for="select_media_label_{{html_i}}">Select Media Type</label>
+										<div class="col-md-8">
+											<select (change)="changeMedia(html_i,typeMenuform.menuTypeTutorialImages[html_i]['media_type'])" class="form-control" id="select_media_{{html_i}}"
+											    name="media_type_{{html_i+1}}" [(ngModel)]="typeMenuform.menuTypeTutorialImages[html_i]['media_type']">
+												<option *ngFor="let mT of mediaTypes" [ngValue]="mT.value">
+													{{mT.key}}
+												</option>
+											</select>
+										</div>
+									</div>
+									<div class="form-group row" [hidden]="typeMenuform.menuTypeTutorialImages[html_i]['media_type'] === 2">
+										<label class="col-md-3 col-form-label">Tutorial Screen Upload</label>
+										<div class="col-md-8">
+											<input type="file" data-max-file-size="3M" class="dropify" id="file_upload_{{html_i+1}}" name="file_upload_{{html_i+1}}"
+											    data-allowed-file-extensions="png jpeg jpg" (change)="fileUploadFileChange($event,html_i);sendMenuTypeTutorialFormData($event,null,null,menuTypeTutorial)"
+											    data-show-remove="false" />
+										</div>
+									</div>
+									<div [hidden]="typeMenuform.menuTypeTutorialImages[html_i]['media_type'] === 1 " class="form-group row">
+										<label class="col-md-3 col-form-label" for="video_url_{{html_i}}">YouTube Video ID
+											<i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="To find your YouTube Video ID, go to the desired YouTube video and look at the URL. After the equals sign (=) you will see a combination of letters and numbers. For example, if the URL was https://www.youtube.com/watch?v=Sj8DD0T7I2k the YouTube Video ID would be Sj8DD0T7I2k."></i>
+										</label>
+										<div class="col-md-8">
+											<input placeholder="YouTube Video ID" id="video_url_{{html_i}}" name="video_url_{{html_i}}" [(ngModel)]="typeMenuform.tutorial_add_more_fields[html_i]['video_url']"
+											    (ngModelChange)="sendMenuTypeTutorialFormData($event,null,null,menuTypeTutorial)" class="form-control" type="text"
+											/>
+										</div>
+									</div>
+									<div class="form-group row">
+										<label class="col-md-3 col-form-label" for="display_order_{{html_i}}">Display Order</label>
+										<div class="col-md-8">
+											<input id="display_order_{{html_i+1}}" name="display_order_{{html_i}}" [(ngModel)]="typeMenuform.tutorial_add_more_fields[html_i]['display_order']"
+											    (ngModelChange)="sendMenuTypeTutorialFormData($event,null,null,menuTypeTutorial)" class="form-control" placeholder="Enter display order"
+											    type="text" />
+										</div>
+									</div>
+									<div class='col-sm-8 control-label' *ngIf="formHtmlAarry.length > 1">
+										<button type='button' class='btn btn-danger remove_property_field' (click)='removeHtmlForm(html_i);'>
+											<i class='fa fa-minus' aria-hidden='true'></i>&nbsp;&nbsp;&nbsp;Remove</button>
+									</div>
+									<hr>
+								</div>
+							</div>
+
+							<div class="margin-20">
+								<a #AddTutorialScreen href="javascript:void(0)" (click)="addFormHtml();" class="btn btn-primary" style="cursor: default">Add Additional Tutorial Screen +</a>
+							</div>
+
+						</div>
+
+						<div class="accordion card_custome_accordion" id="accordion">
+
+							<div class="card">
+
+								<div class="card-header card_custome_collapsed" role="tab" id="headingOne" data-toggle="collapse" aria-expanded="true" [attr.data-target]="'#' + menuTypeMenuSlugId"
+								    [attr.aria-controls]="menuTypeMenuSlugId" (click)="subMenuCollapseOpen(menuTypeMenuSlugId)" [ngClass]="subMenuTypeCollapsed == menuTypeMenuSlugId ? '' : 'collapsed'">
+
+									<div class="card-title">
+										<span class="accordion-indicator pull-right">
+											<i class="plus fa fa-plus"></i>
+											<i class="minus fa fa-minus"></i>
+										</span>
+										<a>Advanced Options</a>
+									</div>
+
+								</div>
+
+								<div id="{{subMenuTypeCollapsed}}" class="card-collapse collapse" role="tabcard" aria-labelledby="headingOne" [ngClass]="subMenuTypeCollapsed == menuTypeMenuSlugId ? 'show' : ''">
+
+									<div class="sub-menu-css-json-fields sub-menu-css-json-field-block">
+
+										<ng-container *ngFor="let cssData of typeMenuform.css_string_json; let i = index ">
+
+											<div class="form-group row" *ngIf="typeMenuform.css_string_json[i]['time'] !== 'always'">
+												<label class="col-md-3 col-form-label" for="{{cssData.key}}">{{cssData.label}}</label>
+
+												<div class="col-sm-8" *ngIf="cssData.type == 'size'">
+													<input id="{{cssData.key}}" name="{{cssData.key}}" [(ngModel)]="typeMenuform.css_string_json[i]['value']" (ngModelChange)="sendMenuTypeTutorialFormData($event,null,null,menuTypeTutorial)"
+													    class="form-control custom_css_size_field_text" placeholder="Enter {{cssData.label}}" type="text" appOnlyNum/>
+
+													<input class="form-control custom_css_size_field_px" value="px" name="field_size_px_{{i}}" id="field_size_px_{{i}}" [disabled]="true"
+													    type="text">
+												</div>
+
+												<div class="col-md-4" *ngIf="cssData.type == 'color' && cssData.key == 'backgroundColor'">
+													<input type="text" name="{{cssData.key}}" id="{{cssData.key}}" class="form-control cursor_pointer_input" [style.background]="cssData.value"
+													    [(colorPicker)]="cssData.value" [cpOutputFormat]="'hex'" [cpPosition]="'bottom'" [cpPositionRelativeToArrow]="true"
+													    (colorPickerChange)="rgbaText=onChangeclosebtncolor($event);sendMenuTypeTutorialFormData($event,i,cssData.key,menuTypeTutorial)"
+													    [readonly]="true" />
+												</div>
+
+												<label *ngIf="cssData.type == 'color' && cssData.key == 'backgroundColor' && cssData.value" class="col-md-4 col-form-label"
+												    for="{{cssData.key}}">
+													Hex: {{cssData.value}}
+												</label>
+												<label *ngIf="cssData.type == 'color' && cssData.key == 'backgroundColor' && cssData.value == ''" class="col-md-4 col-form-label"
+												    for="{{cssData.key}}">
+													Hex: #000000
+												</label>
+
+												<div class="col-md-4" *ngIf="cssData.type == 'color' && cssData.key == 'bottomFontColor'">
+													<input type="text" name="{{cssData.key}}" id="{{cssData.key}}" class="form-control cursor_pointer_input" [style.background]="cssData.value"
+													    [(colorPicker)]="cssData.value" [cpOutputFormat]="'hex'" [cpPosition]="'bottom'" [cpPositionRelativeToArrow]="true"
+													    (colorPickerChange)="rgbaText=onChangeBottomFontcolor($event);sendMenuTypeTutorialFormData($event,i,cssData.key,menuTypeTutorial)"
+													    [readonly]="true" />
+												</div>
+
+												<label *ngIf="cssData.type == 'color' && cssData.key == 'bottomFontColor' && cssData.value" class="col-md-4 col-form-label"
+												    for="{{cssData.key}}">
+													Hex: {{cssData.value}}
+												</label>
+												<label *ngIf="cssData.type == 'color' && cssData.key == 'bottomFontColor' && cssData.value == ''" class="col-md-4 col-form-label"
+												    for="{{cssData.key}}">
+													Hex: #000000
+												</label>
+
+												<div class="col-md-8" *ngIf="cssData.type == 'positionType'">
+
+													<select class="form-control" id="{{cssData.key}}" name="{{cssData.key}}" [(ngModel)]="typeMenuform.css_string_json[i]['value']"
+													    (ngModelChange)="sendMenuTypeTutorialFormData($event,null,null,menuTypeTutorial)">
+														<option value="" selected="">Select Image Position Type</option>
+														<option *ngFor="let position of subMenuPositionTypeArray" [ngValue]="position.value">{{position.name}}</option>
+													</select>
+
+												</div>
+
+											</div>
+
+										</ng-container>
+
+									</div>
+
+								</div>
+
+
+
+							</div>
+
+						</div>
+
+
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

@@ -1,0 +1,167 @@
+<section class="card">
+
+    <div class="card-block">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="mb-5 sub-menu-css-field-part">
+                    <form #menuTypePhoto="ngForm">
+                        <!-- <input type="hidden" name="cssDemo" value="{{getMenuSubCssJsonData | json}}"> -->
+                        <input type="hidden" name="menuTypeMenuSlugId" value="{{getMenuTypeMenuSlugId}}">
+
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label" for="user_id">Album Email
+                                <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="Please enter the email address associated with your Google/Picasa account"></i>
+                            </label>
+                            <div class="col-md-8">
+                                <input id="user_id" name="user_id" [(ngModel)]="typeMenuform.user_id" (ngModelChange)="sendMenuTypePhotoFormData($event,null,null,menuTypePhoto)"
+                                    class="form-control" placeholder="Enter Album Email" type="email"
+                                    appAllowValidEmail
+                                    #email="ngModel"/>
+                                <label class="text-danger" for="error" *ngIf="email.errors && (email.dirty || email.touched)">
+                                    <p *ngIf="email.errors.appAllowValidEmail">Please enter correct email. ex. admin@admin.com</p>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group row" style="display: none;">
+                            <label class="col-md-3 col-form-label" for="google_key">Google Key
+                                <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="1. Login into your gmail account. 2. Then go to google developer console 3. Copy the google key from there"></i>
+                            </label>
+                            <div class="col-md-8">
+                                <input id="google_key" name="google_key" [(ngModel)]="typeMenuform.google_key" (ngModelChange)="sendMenuTypePhotoFormData($event,null,null,menuTypePhoto)"
+                                    class="form-control" placeholder="Enter Google Key" type="text" />
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label" for="album_id">Album ID
+                                <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="Please enter the Album ID associated with your Google/Picasa account"></i>
+                            </label>
+                            <div class="col-md-8">
+                                <input id="album_id" name="album_id" [(ngModel)]="typeMenuform.album_id" (ngModelChange)="sendMenuTypePhotoFormData($event,null,null,menuTypePhoto)"
+                                    class="form-control" placeholder="Enter Album ID" type="text" />
+                            </div>
+                        </div>
+
+                        <div class="accordion card_custome_accordion" id="accordion">
+
+                            <div class="card">
+
+                                <div class="card-header card_custome_collapsed " role="tab" id="headingOne" data-toggle="collapse" aria-expanded="true" [attr.data-target]="'#' + menuTypeMenuSlugId"
+                                    [attr.aria-controls]="menuTypeMenuSlugId" (click)="subMenuCollapseOpen(menuTypeMenuSlugId)"
+                                    [ngClass]="subMenuTypeCollapsed == menuTypeMenuSlugId ? '' : 'collapsed'">
+
+                                    <div class="card-title">
+                                        <span class="accordion-indicator pull-right">
+                                            <i class="plus fa fa-plus"></i>
+                                            <i class="minus fa fa-minus"></i>
+                                        </span>
+                                        <a>Advanced Options</a>
+                                    </div>
+
+                                </div>
+
+                                <div id="{{subMenuTypeCollapsed}}" class="custom-collapse-margin-top card-collapse collapse" role="tabcard" aria-labelledby="headingOne"
+                                    [ngClass]="subMenuTypeCollapsed == menuTypeMenuSlugId ? 'show' : ''">
+
+                                    <div class="sub-menu-css-json-fields sub-menu-css-json-field-block">
+
+                                        <div class="form-group row" *ngFor="let cssData of typeMenuform.css_string_json; let i = index ">
+
+                                            <label class="col-md-3 col-form-label" for="{{cssData.key}}">{{cssData.label}}</label>
+
+                                            <div class="col-sm-8" *ngIf="cssData.type == 'size'">
+                                                <input id="{{cssData.key}}" name="{{cssData.key}}" [(ngModel)]="typeMenuform.css_string_json[i]['value']" (ngModelChange)="sendMenuTypePhotoFormData($event,null,null,menuTypePhoto)"
+                                                class="form-control custom_css_size_field_text" placeholder="Enter {{cssData.label}}"
+                                                type="text" appOnlyNum/>
+
+                                                <input class="form-control custom_css_size_field_px" value="px" name="field_size_px_{{i}}" id="field_size_px_{{i}}" [disabled]="true"
+                                                type="text">
+                                            </div>
+
+
+                                            <div class="col-md-4" *ngIf="cssData.type == 'color' && cssData.key == 'borderColor'">
+                                                <input type="text" name="{{cssData.key}}" id="{{cssData.key}}"
+                                                class="form-control cursor_pointer_input"
+                                                [style.background]="cssData.value"
+                                                [(colorPicker)]="cssData.value"
+                                                [cpOutputFormat]="'hex'"
+                                                [cpPositionRelativeToArrow]='true'
+                                                (colorPickerChange)="rgbaText=onChangeBordercolor($event);sendMenuTypePhotoFormData($event,i,cssData.key,menuTypePhoto)"
+                                                [readonly]="true"
+                                                />
+                                            </div>
+                                            <label *ngIf="cssData.type == 'color' && cssData.key == 'borderColor' && cssData.value" class="col-md-4 col-form-label" for="{{cssData.key}}">
+                                                Hex: {{cssData.value}}
+                                            </label>
+                                            <label *ngIf="cssData.type == 'color' && cssData.key == 'borderColor' && cssData.value == ''" class="col-md-4 col-form-label"
+                                                for="{{cssData.key}}">
+                                                Hex: #000000
+                                            </label>
+
+
+                                            <div class="col-md-4" *ngIf="cssData.type == 'color' && cssData.key == 'fontColor'">
+                                                <input type="text" id="{{cssData.key}}" name="{{cssData.key}}"
+                                                class="form-control cursor_pointer_input" type="text"
+                                                [style.background]="cssData.value"
+                                                [(colorPicker)]="cssData.value"
+                                                [cpOutputFormat]="'hex'"
+                                                [cpPositionRelativeToArrow]='true'
+                                                (colorPickerChange)="rgbaText=onChangefontcolor($event);sendMenuTypePhotoFormData($event,i,cssData.key,menuTypePhoto)"
+                                                [readonly]="true"
+                                                />
+                                            </div>
+                                            <label *ngIf="cssData.type == 'color' && cssData.key == 'fontColor' && cssData.value" class="col-md-4 col-form-label" for="{{cssData.key}}">
+                                                Hex: {{cssData.value}}
+                                            </label>
+                                            <label *ngIf="cssData.type == 'color' && cssData.key == 'fontColor' && cssData.value == ''" class="col-md-4 col-form-label"
+                                            for="{{cssData.key}}">
+                                            Hex: #000000
+                                            </label>
+
+
+                                            <div class="col-md-8" *ngIf="cssData.type == 'font'">
+
+                                                <select class="form-control" id="menu_location_type" name="menu_location_type" [(ngModel)]="typeMenuform.css_string_json[i]['value']"
+                                                    (ngModelChange)="sendMenuTypePhotoFormData($event,null,null,menuTypePhoto)">
+                                                    <option value="" selected="">Select Font Name</option>
+                                                    <option *ngFor="let fontType of subMenuFontTypeData" [ngValue]="fontType.value">{{fontType.name}}</option>
+                                                </select>
+
+                                            </div>
+
+                                            <div class="col-md-8" *ngIf="cssData.type == 'align'">
+
+                                                <select class="form-control" id="alignment" name="alignment" [(ngModel)]="typeMenuform.css_string_json[i]['value']" (ngModelChange)="sendMenuTypePhotoFormData($event,null,null,menuTypePhoto)">
+                                                    <option *ngFor="let align of subMenuAlignmentArray" [ngValue]="align.value">{{align.name}}</option>
+                                                </select>
+
+                                            </div>
+
+                                            <div class="col-md-8" *ngIf="cssData.type == 'borderStyle'">
+
+                                                <select class="form-control" id="{{cssData.key}}" name="{{cssData.key}}" [(ngModel)]="typeMenuform.css_string_json[i]['value']"
+                                                    (ngModelChange)="sendData($event,null,null,menuTypePhoto)">
+                                                    <option value="" selected="">Select Border Style</option>
+                                                    <option *ngFor="let style of subMenuBorderStyleArray" [ngValue]="style.value">{{style.name}}</option>
+
+                                                </select>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

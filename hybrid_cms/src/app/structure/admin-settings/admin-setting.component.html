@@ -1,0 +1,188 @@
+<!-- START: tables/datatables -->
+<section class="card">
+    <div class="card-header">
+        <span class="cat__core__title">
+            <strong>App Admin Settings</strong>
+        </span>
+    </div>
+    <div class="card-block">
+        <div class="row">
+            <div class="col-lg-12">
+                <h6 class="text-uppercase">
+                    <strong>STEPS TO CREATE OR SIGN IN TO YOUR GOOGLE ANALYTICS ACCOUNT:</strong>
+                </h6>
+
+                <label class="form-label">
+                    1. Create or sign in to your Google Analytics account:
+                    <br/> 2. Go to
+                    <a style="color: #0275d8;" target="_blank" href="https://www.google.com/analytics/">https://www.google.com/analytics/</a>
+                    <br/> 3. Click SIGN IN > Analytics.
+                    <br/> 4. Do one of the following:
+                    <br/> &nbsp;&nbsp;&nbsp;- To create an account, click More options > Create account.
+                    <br/> &nbsp;&nbsp;&nbsp;- To sign in to your account, enter the email address and password associated with
+                    the account.
+                    <br/> 5. After sign in click Admin.
+                    <br/> 6. Select an account from the menu in the ACCOUNT column.
+                    <br/> 7. Select a property from the menu in the PROPERTY column.
+                    <br/> 8. Under PROPERTY, click Tracking Info > Tracking Code.
+                    <br/> 9. Your tracking ID and property number are displayed at the top of the page.
+                    <br/> 10. The tracking code snippet for your website is displayed under Website tracking.
+                    <br/>
+                    <br/>
+                </label>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="mb-5">
+
+                    <form #basicInformationForm="ngForm" (ngSubmit)="adminSettingSubmit(basicInformationForm)" [formGroup]="asform">
+                        <div class="row">
+
+                            <!-- <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-md-4 col-form-label" for="l0">Google Play Store URL
+
+                                            <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="Google Play Store URL"></i>
+                                            <span class="mandatory-field">*</span>
+                                            </label>
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control" name="playstore_url" placeholder="Enter playstore url" [formControl]="asform.controls['playstore_url']">
+                                                <small *ngIf="asform.controls['playstore_url'].hasError('required') && asform.controls['playstore_url'].touched" class="form-message text-danger">This field is required.</small>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-md-4 col-form-label" for="l0">Version
+                                            <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="Version"></i>
+                                            <span class="mandatory-field">*</span>
+                                            </label>
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control" name="version" placeholder="Enter playstore url" [formControl]="asform.controls['version']">
+                                                <small *ngIf="asform.controls['version'].hasError('required') && asform.controls['version'].touched" class="form-message text-danger">This field is required.</small>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-md-4 col-form-label" for="l0">Bundle Id
+                                            <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="Bundle Id"></i>
+                                            <span class="mandatory-field">*</span>
+                                            </label>
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control" name="bundle_id" placeholder="Enter playstore url" [formControl]="asform.controls['bundle_id']">
+                                                <small *ngIf="asform.controls['bundle_id'].hasError('required') && asform.controls['bundle_id'].touched" class="form-message text-danger">This field is required.</small>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-md-4 col-form-label" for="l0">Firebase Channel Id
+                                            <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="Firebase Channel Id"></i>
+                                            <span class="mandatory-field">*</span>
+                                            </label>
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control" name="firebase_id" placeholder="Enter playstore url" [formControl]="asform.controls['firebase_id']">
+                                                <small *ngIf="asform.controls['firebase_id'].hasError('required') && asform.controls['firebase_id'].touched" class="form-message text-danger">This field is required.</small>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-md-5 col-form-label" for="l0">Google Key
+                                        <span class="mandatory-field">*</span>
+                                    </label>
+                                    <div class="col-md-6">
+                                        <input class="form-control" placeholder="Enter Google Key" [formControl]="asform.controls['google_key']" name="google_key"
+                                            type="text">
+                                        <small *ngIf="asform.controls['google_key'].hasError('required') && asform.controls['google_key'].touched" class="form-message text-danger">You must include a google key.</small>
+                                        <small *ngIf="asform.controls['google_key'].hasError('matchCorrectSpace') && asform.controls['google_key'].touched" class="form-message text-danger">Please enter a valid google key.</small>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-md-5 col-form-label" for="l0">Minimum Android Version
+                                        <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="Enter Minimum Android Version."></i>
+
+                                        <span class="mandatory-field">*</span>
+                                    </label>
+                                    <div class="col-md-6">
+                                        <input class="form-control" placeholder="Enter Android Version" [formControl]="asform.controls['android_version']" name="android_version"
+                                            type="text">
+                                        <small *ngIf="asform.controls['android_version'].hasError('required') && asform.controls['android_version'].touched" class="form-message text-danger">This field is required.</small>
+                                    </div>
+                                </div>
+                            </div> -->
+
+                            <!-- <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-md-5 col-form-label" for="l0">Minimum iOS Version
+                                        <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="Enter Minimum iOS Version."></i>
+
+                                        <span class="mandatory-field">*</span>
+                                    </label>
+                                    <div class="col-md-6">
+                                        <input class="form-control" placeholder="Enter iOS Version" [formControl]="asform.controls['ios_version']" name="android_version"
+                                            type="text">
+                                        <small *ngIf="asform.controls['ios_version'].hasError('required') && asform.controls['ios_version'].touched" class="form-message text-danger">This field is required.</small>
+                                    </div>
+                                </div>
+                            </div> -->
+                            </div>
+                            <div class="card-header" style='padding:.75rem 0;'>
+                                <span class="cat__core__title">
+                                    <strong>App Bundle Identifiers</strong>
+                                </span>
+                            </div>
+                            <div class="card-block" style='padding:1.25rem 0;'>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-md-5 col-form-label" for="andr_app_id">Android App ID
+                                            <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="Enter Android App ID."></i>
+
+                                            <span class="mandatory-field">*</span>
+                                        </label>
+                                        <div class="col-md-6">
+                                            <input type="text" class="form-control" name="andr_app_id" placeholder="Enter Android App id" [formControl]="asform.controls['rate_andr_app_id']">
+                                            <small *ngIf="asform.controls['rate_andr_app_id'].touched && asform.controls['rate_andr_app_id'].hasError('required')" class="form-message text-danger">This field is required.</small>
+                                            <small *ngIf="asform.controls['rate_andr_app_id'].touched && asform.controls['rate_andr_app_id'].hasError('matchCorrectSpace')" class="form-message text-danger">Please enter valid android app id</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-md-5 col-form-label" for="ios_app_id">iOS App ID
+                                            <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="Enter iOS App ID."></i>
+
+                                            <span class="mandatory-field">*</span>
+                                        </label>
+                                        <div class="col-md-6">
+                                            <input type="text" class="form-control" name="ios_app_id" placeholder="Enter iOS App Id" [formControl]="asform.controls['rate_ios_app_id']">
+                                            <small *ngIf="asform.controls['rate_ios_app_id'].hasError('required') && asform.controls['rate_ios_app_id'].touched " class="form-message text-danger">This field is required.</small>
+                                            <small *ngIf="asform.controls['rate_ios_app_id'].hasError('matchCorrectSpace') && asform.controls['rate_ios_app_id'].touched" class="form-message text-danger">Please enter valid ios app id</small>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="form-actions clearfix">
+                            <div class="pull-left">
+                                <button #adminSaveBtn type="submit" [disabled]="!asform.valid" class="btn btn-primary mr-3">Save</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- END: tables/datatables -->
